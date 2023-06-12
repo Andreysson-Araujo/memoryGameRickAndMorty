@@ -1,4 +1,6 @@
 const grid = document.querySelector(".grid");
+const spanPlayer = document.querySelector(".player");
+const timer = document.querySelector(".timer")
 
 const characters = [
   "beth",
@@ -29,7 +31,8 @@ function checkEndGame() {
   const disabledCards = document.querySelectorAll(".disabled-card");
 
   if(disabledCards.length == 20){
-    alert("Parabens você ganhou")
+    clearInterval(this.loop)
+    alert(`Parabens ${spanPlayer.innerHTML}! Seu tempo foi ${timer.innerHTML} segundos`)
   }
 }
 
@@ -85,7 +88,6 @@ function revealCard({ target }) {
 
 }
 
-
 //criando carta
 function createCard(character) {
 
@@ -120,4 +122,20 @@ function loadGame() {
   });
 }
 
-loadGame();
+//função que inicia o contador
+function startTimer() {
+  this.loop =  setInterval(() => {
+    // pode em vez de usar Number apenas por + que converte
+      const currentTime = Number(timer.innerHTML);
+      timer.innerHTML = currentTime + 1
+    }, 1000)
+}
+
+// pega o nome na localStorage e joga para tela
+window.onload = () => {
+  
+  spanPlayer.innerHTML = localStorage.getItem("player")
+  startTimer()
+  loadGame();
+}
+
